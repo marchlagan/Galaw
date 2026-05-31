@@ -262,7 +262,7 @@ const QUESTIONS=[
 ];
 
 // ══ STATE ═════════════════════════════════════════════════════
-let numP=2, names=["Player 1","Player 2","Player 3"], pos=[0,0,0], turn=0, roundCount=0;;
+let numP=2, names=["Player 1","Player 2","Player 3"], pos=[0,0,0], turn=0, roundCount=0;
 let deck=[], deckIdx=0, questionCount=0;
 let phase="draw"; // draw | answer | steal | sabotage_select | result
 let currentQ=null, selectedOpt=null;
@@ -365,7 +365,7 @@ function updateQCounter(){
   const el=document.getElementById("qCounter");
   if(!el) return;
   el.textContent=`Round ${roundCount+1} / 20`;
-el.classList.toggle("urgent", roundCount>=15);
+  el.classList.toggle("urgent", roundCount>=15);
 
 function updateAll(){
   updatePlayerPieces(); renderChips(); renderRight(); updateQCounter();
@@ -624,7 +624,7 @@ function checkWin(playerIdx){
 }
 
 function nextTurn(){
-    if(roundCount>=20||gameOver){ updateAll(); return; }
+  if(roundCount>=20||gameOver){ updateAll(); return; }
   turn=(turn+1)%numP;
   if(turn===0) roundCount++;
   phase="draw"; currentQ=null; selectedOpt=null; feedbackMsg="";
