@@ -200,6 +200,50 @@
 </div>
 
 <script>
+  //timer
+  let timerInterval=null, timeLeft=10;
+  function startTimer(){
+  stopTimer();
+  timeLeft=10;
+  updateTimerDisplay();
+  timerInterval=setInterval(()=>{
+    timeLeft--;
+    updateTimerDisplay();
+    if(timeLeft<=0){ stopTimer(); onTimerExpired(); }
+  },1000);
+}
+function stopTimer(){
+  if(timerInterval){ clearInterval(timerInterval); timerInterval=null; }
+}
+function updateTimerDisplay(){
+  const el=document.getElementById('timerCount');
+  const bar=document.getElementById('timerFill');
+  const col=timeLeft<=3?'#ef4444':timeLeft<=5?'#ffc93c':'#22c55e';
+  if(el){ el.textContent=timeLeft; el.style.color=col; }
+  if(bar){ bar.style.width=(timeLeft/10*100)+'%'; bar.style.background=col; }
+}
+function onTimerExpired(){
+  if(!currentQ||phase==='draw'||phase==='result') return;
+  if(phase==='steal'){
+    stealQueue.shift();
+    if(stealQueue.length>0){ stealCurrent=stealQueue[0]; setTimeout(startTimer,50); }
+    else { stealCurrent=null; phase='result'; }
+    updateAll(); return;
+  }
+  const playerIdx=turn;
+  if(currentQ.t==='s'){
+    pos[playerIdx]=Math.max(0,pos[playerIdx]-1);
+    feedbackMsg=`⏱ Time's up! ${pNames[playerIdx]} moves back 1.<br><span class="note">Answer: ${currentQ.a}</span>`;
+    feedbackGood=false; phase='result'; updateAll();
+  } else {
+    feedbackMsg=`⏱ Time's up! ${pNames[playerIdx]} missed it.<br><span class="note">Answer: ${currentQ.a}</span>`;
+    feedbackGood=false;
+    stealQueue=Array.from({length:numP},(_,i)=>i).filter(i=>i!==playerIdx);
+    stealCurrent=stealQueue.length>0?stealQueue[0]:null;
+    if(stealCurrent!==null){ stealQueue.shift(); phase='steal'; updateAll(); setTimeout(startTimer,50); }
+    else { phase='result'; updateAll(); }
+  }
+}
 // ══ CONSTANTS ═════════════════════════════════════════════════
 const STOPS=[
   {name:"General Santos",x:220,y:420},
@@ -400,7 +444,13 @@ function renderRight(){
 
     // Question text
     const qText=currentQ.q.replace("TRUE or FALSE:\n","<b>TRUE or FALSE:</b><br>");
-    html+=`<div class="q-box">${qText}</div>`;
+    html+=`<div class="q-box">${qText}</div>
+<div style="display:flex;align-items:center;gap:10px;margin:6px 0 4px;">
+  <div style="flex:1;height:7px;background:#1e3050;border-radius:4px;overflow:hidden;">
+    <div id="timerFill" style="height:100%;width:100%;border-radius:4px;background:#22c55e;transition:width 0.9s linear,background 0.3s;"></div>
+  </div>
+  <div id="timerCount" style="font-family:monospace;font-size:1rem;font-weight:700;color:#22c55e;min-width:22px;text-align:right;">10</div>
+</div>`;
 
     // Sabotage target selection
     if(phase==="sabotage_select"){
@@ -485,9 +535,12 @@ function drawCard(){
   currentQ=deck[deckIdx++]||deck[0];
   selectedOpt=null; feedbackMsg=""; phase="answer";
   updateAll();
+  setTimeout(startTimer,50);
+  
 }
 
 function handleAnswer(opt,playerIdx){
+  stopTimer();
   selectedOpt=opt;
   const correct=opt===currentQ.a;
   if(phase==="answer"){
