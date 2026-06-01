@@ -213,6 +213,17 @@
     if(timeLeft<=0){ stopTimer(); onTimerExpired(); }
   },1000);
 }
+
+function startTimerSteal(){
+  stopTimer();
+  timeLeft=5;
+  updateTimerDisplay();
+  timerInterval=setInterval(()=>{
+    timeLeft--;
+    updateTimerDisplay();
+    if(timeLeft<=0){ stopTimer(); onTimerExpired(); }
+  },1000);
+}
   
 function stopTimer(){
   if(timerInterval){ clearInterval(timerInterval); timerInterval=null; }
@@ -432,9 +443,8 @@ function renderRight(){
       html+=`<div class="badge ${cls}">${label}</div>`;
     }
     if(phase==="steal"&&stealCurrent!==null)
-      setTimeout(startTimer,50);
       html+=`<div class="badge badge-steal">⚡ ${pNames[stealCurrent]}'s turn to steal!</div>`;
-
+      setTimeout(startTimerSteal,50);
     // Question text
     const qText=currentQ.q.replace("TRUE or FALSE:\n","<b>TRUE or FALSE:</b><br>");
     html+=`<div class="q-box">${qText}</div>
