@@ -213,9 +213,11 @@
     if(timeLeft<=0){ stopTimer(); onTimerExpired(); }
   },1000);
 }
+  
 function stopTimer(){
   if(timerInterval){ clearInterval(timerInterval); timerInterval=null; }
 }
+  
 function updateTimerDisplay(){
   const el=document.getElementById('timerCount');
   const bar=document.getElementById('timerFill');
@@ -223,6 +225,7 @@ function updateTimerDisplay(){
   if(el){ el.textContent=timeLeft; el.style.color=col; }
   if(bar){ bar.style.width=(timeLeft/10*100)+'%'; bar.style.background=col; }
 }
+  
 function onTimerExpired(){
   if(!currentQ||phase==='draw'||phase==='result') return;
   const wrongOpt=currentQ.opts.find(o=>o!==currentQ.a);
@@ -245,7 +248,7 @@ function onTimerExpired(){
     if(stealCurrent!==null){ stealQueue.shift(); phase='steal'; updateAll(); setTimeout(startTimer,50); }
     else { phase='result'; updateAll(); }
   }
-}
+  
 // ══ CONSTANTS ═════════════════════════════════════════════════
 const STOPS=[
   {name:"General Santos",x:220,y:420},
