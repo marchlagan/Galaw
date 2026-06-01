@@ -226,15 +226,6 @@ function updateTimerDisplay(){
   if(bar){ bar.style.width=(timeLeft/10*100)+'%'; bar.style.background=col; }
 }
   
-function onTimerExpired(){
-  if(!currentQ||phase==='draw'||phase==='result') return;
-  const wrongOpt=currentQ.opts.find(o=>o!==currentQ.a);
-  if(phase==='steal'){
-    handleAnswer(wrongOpt, stealCurrent);
-  } else {
-    handleAnswer(wrongOpt, turn);
-  }
-}
   const playerIdx=turn;
   if(currentQ.t==='s'){
     pos[playerIdx]=Math.max(0,pos[playerIdx]-1);
