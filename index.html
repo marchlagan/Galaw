@@ -240,14 +240,17 @@ function onTimerExpired(){
     pos[playerIdx]=Math.max(0,pos[playerIdx]-1);
     feedbackMsg=`⏱ Time's up! ${pNames[playerIdx]} moves back 1.<br><span class="note">Answer: ${currentQ.a}</span>`;
     feedbackGood=false; phase='result'; updateAll();
+  } 
+
+  function onTimerExpired(){
+  if(!currentQ||phase==='draw'||phase==='result') return;
+  const wrongOpt=currentQ.opts.find(o=>o!==currentQ.a);
+  if(phase==='steal'){
+    handleAnswer(wrongOpt, stealCurrent);
   } else {
-    feedbackMsg=`⏱ Time's up! ${pNames[playerIdx]} missed it.<br><span class="note">Answer: ${currentQ.a}</span>`;
-    feedbackGood=false;
-    stealQueue=Array.from({length:numP},(_,i)=>i).filter(i=>i!==playerIdx);
-    stealCurrent=stealQueue.length>0?stealQueue[0]:null;
-    if(stealCurrent!==null){ stealQueue.shift(); phase='steal'; updateAll(); setTimeout(startTimer,50); }
-    else { phase='result'; updateAll(); }
+    handleAnswer(wrongOpt, turn);
   }
+}
   
 // ══ CONSTANTS ═════════════════════════════════════════════════
 const STOPS=[
