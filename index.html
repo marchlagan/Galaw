@@ -225,12 +225,13 @@ function updateTimerDisplay(){
 }
 function onTimerExpired(){
   if(!currentQ||phase==='draw'||phase==='result') return;
+  const wrongOpt=currentQ.opts.find(o=>o!==currentQ.a);
   if(phase==='steal'){
-    stealQueue.shift();
-    if(stealQueue.length>0){ stealCurrent=stealQueue[0]; setTimeout(startTimer,50); }
-    else { stealCurrent=null; phase='result'; }
-    updateAll(); return;
+    handleAnswer(wrongOpt, stealCurrent);
+  } else {
+    handleAnswer(wrongOpt, turn);
   }
+}
   const playerIdx=turn;
   if(currentQ.t==='s'){
     pos[playerIdx]=Math.max(0,pos[playerIdx]-1);
