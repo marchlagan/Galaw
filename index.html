@@ -225,13 +225,6 @@ function updateTimerDisplay(){
   if(el){ el.textContent=timeLeft; el.style.color=col; }
   if(bar){ bar.style.width=(timeLeft/10*100)+'%'; bar.style.background=col; }
 }
-  
-  const playerIdx=turn;
-  if(currentQ.t==='s'){
-    pos[playerIdx]=Math.max(0,pos[playerIdx]-1);
-    feedbackMsg=`⏱ Time's up! ${pNames[playerIdx]} moves back 1.<br><span class="note">Answer: ${currentQ.a}</span>`;
-    feedbackGood=false; phase='result'; updateAll();
-  } 
 
   function onTimerExpired(){
   if(!currentQ||phase==='draw'||phase==='result') return;
