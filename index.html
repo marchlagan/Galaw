@@ -634,6 +634,8 @@ function handleSabotage(targetIdx){
 }
 
 function handleStealAnswer(correct,playerIdx){
+  setTimeout(startTimer,50);
+  
   const pNames=names.slice(0,numP);
   if(correct){
     pos[playerIdx]=Math.min(pos[playerIdx]+1,STOPS.length-1);
