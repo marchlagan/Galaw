@@ -12,7 +12,10 @@
     --gold:#ffc93c; --muted:#4a6080; --text:#cdd9ef; --white:#fff;
   }
   *{margin:0;padding:0;box-sizing:border-box;}
-  body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;overflow:hidden;}
+  body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);  width: 100%; height: 100%;
+  margin: 0;
+  padding: 0;
+  overflow-y: auto;}
 
   /* ── SETUP ── */
   #setup{display:flex;flex-direction:column;align-items:center;justify-content:center;
@@ -455,7 +458,7 @@ function renderRight(){
           :`🏆 ${standings[0].n} wins!`;
         html+=`<div class="standings">
           <div class="standings-title">🏁 GAME OVER — 20 Questions Done!</div>
-          <div style="text-align:center;font-family:'Bebas Neue';font-size:1.2rem;color:var(--gold);margin-bottom:12px; max-height: 300px; overflow-y: auto; overflow-x: auto;">${winText}</div>
+          <div style="text-align:center;font-family:'Bebas Neue';font-size:1.2rem;color:var(--gold);margin-bottom:12px;">${winText}</div>
           ${standings.map((s,rank)=>`
             <div class="standings-row">
               <span class="s-rank">${rank+1}</span>
