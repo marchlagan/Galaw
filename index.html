@@ -455,7 +455,7 @@ function renderRight(){
           :`🏆 ${standings[0].n} wins!`;
         html+=`<div class="standings">
           <div class="standings-title">🏁 GAME OVER — 20 Questions Done!</div>
-          <div style="text-align:center;font-family:'Bebas Neue';font-size:1.2rem;color:var(--gold);margin-bottom:12px;">${winText}</div>
+          <div style="text-align:center;font-family:'Bebas Neue';font-size:1.2rem;color:var(--gold);margin-bottom:12px; max-height: 300px; overflow-y: auto; overflow-x: auto;">${winText}</div>
           ${standings.map((s,rank)=>`
             <div class="standings-row">
               <span class="s-rank">${rank+1}</span>
