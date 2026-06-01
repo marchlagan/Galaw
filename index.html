@@ -432,6 +432,7 @@ function renderRight(){
       html+=`<div class="badge ${cls}">${label}</div>`;
     }
     if(phase==="steal"&&stealCurrent!==null)
+      setTimeout(startTimer,50);
       html+=`<div class="badge badge-steal">⚡ ${pNames[stealCurrent]}'s turn to steal!</div>`;
 
     // Question text
@@ -634,7 +635,6 @@ function handleSabotage(targetIdx){
 }
 
 function handleStealAnswer(correct,playerIdx){
-  setTimeout(startTimer,50);
   
   const pNames=names.slice(0,numP);
   if(correct){
